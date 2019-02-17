@@ -1,0 +1,276 @@
+swagger: "2.0"
+info:
+  description: "Bem vindo ao projeto Becommerce.\n\n Esta é a api utilizada para o de controle de estoque de produtos de pescaria.\n\n
+  Para realizar uma requisição utilize o token de autenticação abaixo.\n\n<b>Gdu2vkyfKrzb0OdZuoPP</b>"
+  version: "1.0.0"
+  title: "Projeto Becommerce"
+  contact:
+    name: "Henrique Luiz Sousa"
+    email: "henriqueldcs@gmail.com"
+host: "localhost:8080"
+basePath: "/v1"
+tags:
+- name: "Produtos"
+  description: "Gerenciamento de produtos cadastrado"
+- name: "Estoque"
+  description: "Gerenciamento de produtos em estoque"
+schemes:
+- "http"
+
+paths:
+  /products:
+    get:
+      tags:
+      - "Produtos"
+      summary: "Listar produtos cadastrados."
+      description: "Recurso usado para listar produtos do sistema."
+      operationId: "listProducts"
+      produces:
+      - "application/json"
+      parameters:
+        - name: "page"
+          in: "query"
+          description: "Número da página a ser retornada"
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: "size"
+          in: "query"
+          description: "Tamanho da página a ser retornada"
+          required: false
+          type: integer
+          default: 10
+          format: int32
+        - name: "referenceCode"
+          in: "query"
+          description: "Código de referência do produto"
+          required: false
+          type: string
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/product'
+        401:
+          description: "Token inválido"
+        404:
+          description: "Produto não encontrado"
+      security:
+        - api_key: []
+    post:
+      tags:
+      - "Produtos"
+      summary: "Cadastrar um novo produto."
+      description: "Recurso usado para fazer a adição de novos produtos ao sistema."
+      operationId: "addProduct"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "product"
+        description: "Informado para adição de um produto."
+        required: true
+        schema:
+          $ref: "#/definitions/product"
+      responses:
+        201:
+          description: "Produto Criado"
+        401:
+          description: "Token inválido"
+        403:
+          description: "Produto já cadastrado no sistema"
+      security:
+        - api_key: []
+    put:
+      tags:
+      - "Produtos"
+      summary: "Alterar um produto cadastrado."
+      description: "Recurso usado para fazer a alteração de produtos do sistema."
+      operationId: "updateProduct"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "product"
+        description: "Campos informados na adição de um produto."
+        required: true
+        schema:
+          $ref: "#/definitions/product"
+      responses:
+        200:
+          description: "OK. Produto alterado"
+        401:
+          description: "Token inválido"
+        404:
+          description: "Produto não encontrado"
+      security:
+        - api_key: []    
+    delete:
+      tags:
+        - "Produtos"
+      summary: "Remover um produto do sistema"
+      operationId: "removeProduct"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "referenceCode"
+          in: "path"
+          description: "Código de referência do produto a remover"
+          required: true
+          type: string
+      responses:
+        200:
+          description: "OK. Produto removido"
+        401:
+          description: "Token inválido"
+        403:
+          description: "Não foi possível remover o produto"
+      deprecated: false
+      security:
+        - api_key: []
+  /inventories:
+    get:
+      tags:
+      - "Estoque"
+      summary: "Listar produtos em estoque."
+      description: "Recurso usado para listar produtos em estoque."
+      operationId: "listInventoryProducts"
+      consumes:
+      - "application/json"
+      parameters:
+        - name: "page"
+          in: "query"
+          description: "Número da página a ser retornada"
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: "size"
+          in: "query"
+          description: "Tamanho da página a ser retornada"
+          required: false
+          type: integer
+          default: 10
+          format: int32
+        - name: "productReferenceCode"
+          in: "query"
+          description: "Código de referência do produto em estoque"
+          required: false
+          type: string
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "array"
+            items:
+              $ref: '#/definitions/inventoryProduct'
+        401:
+          description: "Token inválido"
+        404:
+          description: "Produto não encontrado em estoque"
+      security:
+        - api_key: []
+    post:
+      tags:
+      - "Estoque"
+      summary: "Adicionar um novo ao estoque."
+      description: "Recurso usado para fazer a adição de novos produtos ao estoque."
+      operationId: "addInventoryProduct"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventory"
+        description: "Campos informados na adição de um produto ao estoque."
+        required: true
+        schema:
+          $ref: "#/definitions/inventory"
+      responses:
+        200:
+          description: "OK. Protudo já cadastrado em estoque"
+        201:
+          description: "Produto adicionado ao estoque"
+        401:
+          description: "Token inválido"
+      security:
+        - api_key: []
+    put:
+      tags:
+      - "Estoque"
+      summary: "Incrementar ou decrementar a quantidade de um produto em estoque."
+      description: "Recurso usado para fazer o incremento ou decremento de produtos do estoque."
+      operationId: "updateInventoryProduct"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "inventoryProductAction"
+        description: "Campos informados na adição de um produto."
+        required: true
+        schema:
+          $ref: "#/definitions/inventoryProductAction"
+      responses:
+        200:
+          description: "OK. Produto incrementado ou decrementado"
+        401:
+          description: "Token inválido"
+        404:
+          description: "Produto não encontrado"
+      security:
+        - api_key: []    
+securityDefinitions:
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+    
+definitions:
+  product:
+    type: "object"
+    required:
+    - "name"
+    - "referenceCode"
+    properties:
+      name:
+        type: "string"
+        example: "Vara de pesca pequena"
+      referenceCode:
+        type: "string"
+        example: "P123"
+      Description:
+        type: "string"
+        example: "Produto usado para pesca de pequenos peixes"
+  inventory:
+    type: "object"
+    required:
+    - "amount"
+    - "productReferenceCode"
+    properties:
+      productReferenceCode:
+        type: "string"
+        example: "P123"
+      amount:
+        type: "number"
+        example: "7.5"
+  inventoryProduct:
+    type: "object"
+    properties:
+      product: 
+        $ref: '#/definitions/product'
+      amount:
+        type: "number"
+        example: "7.5"
+  inventoryProductAction:
+    type: "object"
+    properties:
+      action:
+        type: "string"
+        enum:
+          - "INCREMENT"
+          - "DECREMENT"
+      value:
+        type: "number"
+        example: "1.2"
