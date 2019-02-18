@@ -1,4 +1,4 @@
-package br.com.becommerce;
+package br.com.becommerce.api.gateway;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BecommerceApplicationTests {
+public class ApiGatewayApplicationTests {
 
 	@Test
 	public void contextLoads() {

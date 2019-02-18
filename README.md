@@ -9,7 +9,7 @@ O código fonte deste projeto está disponível em:
 
 Os itens abaixo são necessários para a execução.
 
-	- gradlew 4
+	- gradlew 5
 	- java 10
 
 ## Perfis
