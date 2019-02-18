@@ -36,6 +36,9 @@ subprojects {
 	if (!System.getProperty('spring.profiles.active')) {
 		System.setProperty('spring.profiles.active', 'dev')
 	}
+
+	print(System.getProperty('spring.profiles.active'))
+
 }
 
 project(":api-gateway") {
@@ -55,3 +58,19 @@ project(":api-gateway") {
 	}
 }
 
+project(":product-management-service") {
+
+	apply plugin: 'application'
+	apply plugin: 'org.springframework.boot'
+
+	bootRun {
+		systemProperties = System.properties
+	}
+
+	mainClassName = 'br.com.becommerce.product.management.service.ProductManagementServiceApplication'
+
+	dependencies {
+		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	}
+}
