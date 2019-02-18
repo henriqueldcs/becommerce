@@ -48,6 +48,14 @@ disponibilizados para a execução do projeto, dev, qa e prod.
 
     ./gradlew bootRun --parallel -Dspring.profiles.active=dev
     
+
+## Tecnologias utilizadas
+    
+    - Java 10
+    - Spring boot
+    - H2
+    - Gradle
+    - Git
     
 ## Suporte
 

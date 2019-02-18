@@ -72,5 +72,6 @@ project(":product-management-service") {
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+		runtimeOnly 'com.h2database:h2'
 	}
 }
