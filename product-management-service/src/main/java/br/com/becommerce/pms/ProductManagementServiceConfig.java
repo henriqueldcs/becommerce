@@ -1,4 +1,4 @@
-package br.com.becommerce.product.management.service;
+package br.com.becommerce.pms;
 
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;

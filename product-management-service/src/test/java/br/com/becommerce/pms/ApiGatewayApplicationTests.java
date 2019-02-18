@@ -1,4 +1,4 @@
-package br.com.becommerce.product.management.service;
+package br.com.becommerce.pms;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
