@@ -59,6 +59,9 @@ project(":api-gateway") {
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+		compile("io.springfox:springfox-swagger2:${swaggerVersion}")
+		compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+		implementation("org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}")
 	}
 }
 
