@@ -32,6 +32,7 @@ Os itens abaixo são necessários para a execução.
 
 	- gradlew 4
 	- java 10
+	- Lombok IntelliJ Plugin
 
 ## Perfis
 
@@ -56,6 +57,7 @@ disponibilizados para a execução do projeto, dev, qa e prod.
     - H2
     - Gradle
     - Git
+    - Lombok
     
 ## Suporte
 

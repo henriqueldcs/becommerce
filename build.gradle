@@ -1,6 +1,8 @@
 buildscript {
 	ext{
 		springBootVersion = '2.0.5.RELEASE'
+		swaggerVersion = '2.9.2'
+		lombokVersion = '1.18.4'
 	}
 
 	repositories {
@@ -31,7 +33,8 @@ subprojects {
 
 	dependencies {
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		compileOnly 'org.projectlombok:lombok'
+		compileOnly "org.projectlombok:lombok:${lombokVersion}"
+		annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 	}
 
 	if (!System.getProperty('spring.profiles.active')) {
