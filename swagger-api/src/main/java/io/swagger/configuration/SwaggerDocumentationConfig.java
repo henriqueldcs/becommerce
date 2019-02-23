@@ -1,13 +1,17 @@
-package br.com.becommerce.api.gateway.configuration;
+package io.swagger.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
@@ -17,8 +21,7 @@ public class SwaggerDocumentationConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("Projeto Becommerce")
-            .description("Bem vindo ao projeto Becommerce.\\n\\n Esta é a api utilizada para o de controle de estoque de produtos de pescaria.\\n\\n\n" +
-                    "  Para realizar uma requisição utilize o token de autenticação abaixo.\\n\\n<b>Gdu2vkyfKrzb0OdZuoPP</b>")
+            .description("Bem vindo ao projeto Becommerce.   Esta é a api utilizada para o de controle de estoque de produtos de pescaria.   Para realizar uma requisição utilize o token de autenticação abaixo.  <b>Gdu2vkyfKrzb0OdZuoPP</b>")
             .license("")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
@@ -29,12 +32,18 @@ public class SwaggerDocumentationConfig {
 
     @Bean
     public Docket customImplementation(){
+
+        List<ApiKey> securitySchemes = new ArrayList<>();
+        ApiKey apiKey = new ApiKey("apiKey", "api_key", "header");
+        securitySchemes.add(apiKey);
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("io.swagger.api"))
                     .build()
                 .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
                 .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
+                .securitySchemes(securitySchemes)
                 .apiInfo(apiInfo());
     }
 
