@@ -5,7 +5,7 @@ O objetivo deste projeto é expor APIs REST para de controlar o estoque de produ
 O código fonte deste projeto está disponível em:
 	https://github.com/henriqueldcs/becommerce.git
 	
-## Estrutura do projeto ##
+## Estrutura do projeto
 
 Este sistema foi projetado com o padrão arquitetural de microserviços. Atualmente é constituído por dois microserviços, 
 que para reduzir a complexidade em tempo de desenvolvimento, se encontram no mesmo repositório, porém deveriam estar em respositórios separados.
@@ -15,15 +15,30 @@ São eles:
     - API Gateway
     - Product Management Service
         
-
-#### Api gateway ####  
+#### Api gateway
 Serviço responsável por receber todas as requisições de entrada, validar o token enviado, 
 junto ao serviço de autenticação de usuários, e direcionar a requisição para o serviço adequado.
 
 Em desenvolvimento foi considerado apenas um token default, que será substituido pelo serviço de autenticação e geração de token em um momento oportuno.
 
-#### Product Management Service ####  
+#### Product Management Service  
 Serviço responsável por manter o cadastro de produtos.
+
+
+## Documentação
+
+A seguinte arquitetura foi escolhida para a construção do projeto.
+
+![Diagrama arquitetural](docs/diagrama%20arquitetural.jpg)
+
+
+Os documentos foram adicionados na raiz do projeto dentro da pasta docs.
+
+As APIs foram desenhadas utilizando o [Swagger Editor](http://editor.swagger.io/) e o arquivo de definição,
+ [swagger file](docs/swagger.yaml), foi adicionado ao projeto na pasta docs.
+ 
+ Para visualizá-lo façao download do [swagger file](docs/swagger.yaml), acesse o [Swagger Editor](http://editor.swagger.io/) 
+ e importe-o em: **File > Import file** 
 
 
 ## Requisitos
