@@ -31,8 +31,16 @@ subprojects {
 		mavenCentral()
 	}
 
+	configurations {
+		developmentOnly
+		runtimeClasspath {
+			extendsFrom developmentOnly
+		}
+	}
+
 	dependencies {
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 		compileOnly "org.projectlombok:lombok:${lombokVersion}"
 		annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 	}
@@ -40,8 +48,6 @@ subprojects {
 	if (!System.getProperty('spring.profiles.active')) {
 		System.setProperty('spring.profiles.active', 'dev')
 	}
-
-	print(System.getProperty('spring.profiles.active'))
 
 }
 
@@ -52,6 +58,7 @@ project(":api-gateway") {
 
 	bootRun {
 		systemProperties = System.properties
+		systemProperties.remove("java.endorsed.dirs")
 	}
 
 	mainClassName = 'br.com.becommerce.api.gateway.ApiGatewayApplication'
