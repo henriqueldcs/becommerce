@@ -17,7 +17,8 @@ public class SwaggerDocumentationConfig {
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
             .title("Projeto Becommerce")
-            .description("Bem vindo ao projeto Becommerce.   Esta é a api utilizada para o de controle de estoque de produtos de pescaria.   Para realizar uma requisição utilize o token de autenticação abaixo.  <b>Gdu2vkyfKrzb0OdZuoPP</b>")
+            .description("Bem vindo ao projeto Becommerce.\\n\\n Esta é a api utilizada para o de controle de estoque de produtos de pescaria.\\n\\n\n" +
+                    "  Para realizar uma requisição utilize o token de autenticação abaixo.\\n\\n<b>Gdu2vkyfKrzb0OdZuoPP</b>")
             .license("")
             .licenseUrl("http://unlicense.org")
             .termsOfServiceUrl("")
