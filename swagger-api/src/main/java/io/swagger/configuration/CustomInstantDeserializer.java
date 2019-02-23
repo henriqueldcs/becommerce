@@ -1,4 +1,4 @@
-package br.com.becommerce.api.gateway.configuration;
+package io.swagger.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonTokenId;

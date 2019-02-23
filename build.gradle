@@ -26,6 +26,7 @@ subprojects {
 	compileTestJava.options.encoding = 'UTF-8'
 	sourceCompatibility = JavaVersion.VERSION_1_10
 	targetCompatibility = JavaVersion.VERSION_1_10
+	System.clearProperty("java.endorsed.dirs")
 
 	repositories {
 		mavenCentral()
@@ -43,6 +44,7 @@ subprojects {
 		runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 		compileOnly "org.projectlombok:lombok:${lombokVersion}"
 		annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+		compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
 	}
 
 	if (!System.getProperty('spring.profiles.active')) {
@@ -58,16 +60,19 @@ project(":api-gateway") {
 
 	bootRun {
 		systemProperties = System.properties
-		systemProperties.remove("java.endorsed.dirs")
 	}
 
 	mainClassName = 'br.com.becommerce.api.gateway.ApiGatewayApplication'
 
 	dependencies {
+
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+		implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+
 		compile("io.springfox:springfox-swagger2:${swaggerVersion}")
 		compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
+		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
 		implementation("org.springframework.boot:spring-boot-starter-hateoas:${springBootVersion}")
 		compile('com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4')
 	}
@@ -82,13 +87,39 @@ project(":product-management-service") {
 		systemProperties = System.properties
 	}
 
-	mainClassName = 'br.com.becommerce.product.management.service.ProductManagementServiceApplication'
+	mainClassName = 'br.com.becommerce.pms.ProductManagementServiceApplication'
 
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		runtimeOnly 'com.h2database:h2'
+
+	}
+}
+
+project(":swagger-api") {
+
+	apply plugin: 'java'
+	apply plugin: 'application'
+	apply plugin: 'org.springframework.boot'
+
+	bootRun {
+		systemProperties = System.properties
+	}
+
+	mainClassName = 'io.swagger.Swagger2SpringBoot'
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		compile 'io.springfox:springfox-swagger2:2.7.0'
+		compile 'io.springfox:springfox-swagger-ui:2.7.0'
+
+		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
 
 	}
 }

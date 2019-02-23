@@ -9,6 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 @EntityScan
 @ComponentScan(basePackageClasses = {ProductManagementServiceConfig.class})
 @PropertySource(value = "classpath:pms-application.properties")
-@PropertySource(value = "pms-application-${spring.profiles.active}.properties")
+@PropertySource(value = "classpath:pms-application-${spring.profiles.active}.properties")
 public class ProductManagementServiceConfig {
 }

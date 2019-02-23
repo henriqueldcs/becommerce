@@ -9,6 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 @EntityScan
 @ComponentScan(basePackageClasses = {ApiGatewayConfig.class})
 @PropertySource(value = "classpath:api-gateway-application.properties")
-@PropertySource(value = "api-gateway-application-${spring.profiles.active}.properties")
+@PropertySource(value = "classpath:api-gateway-application-${spring.profiles.active}.properties")
 public class ApiGatewayConfig {
 }
