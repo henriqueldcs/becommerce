@@ -40,8 +40,6 @@ subprojects {
 	}
 
 	dependencies {
-		testImplementation 'org.springframework.boot:spring-boot-starter-test'
-		runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 		compileOnly "org.projectlombok:lombok:${lombokVersion}"
 		annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 		compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
@@ -70,6 +68,9 @@ project(":api-gateway") {
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
 		implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 
+		runtime 'org.springframework.boot:spring-boot-devtools'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 		compile("io.springfox:springfox-swagger2:${swaggerVersion}")
 		compile("io.springfox:springfox-swagger-ui:${swaggerVersion}")
 		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
@@ -92,8 +93,15 @@ project(":product-management-service") {
 	dependencies {
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
-		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-		runtimeOnly 'com.h2database:h2'
+		implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+
+		// https://mvnrepository.com/artifact/org.javassist/javassist
+		compile group: 'org.javassist', name: 'javassist', version: '3.24.1-GA'
+
+		runtime('com.h2database:h2')
+
+		runtime 'org.springframework.boot:spring-boot-devtools'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	}
 }
@@ -111,15 +119,40 @@ project(":swagger-api") {
 	mainClassName = 'io.swagger.Swagger2SpringBoot'
 
 	dependencies {
+		implementation(project(":becommerce-commons"))
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		runtime 'org.springframework.boot:spring-boot-devtools'
 
 		compile 'io.springfox:springfox-swagger2:2.7.0'
 		compile 'io.springfox:springfox-swagger-ui:2.7.0'
 
 		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	}
+}
+
+project(":product-management-service") {
+
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+
+	dependencies {
+		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+	}
+}
+
+
+project(":becommerce-commons") {
+
+	dependencies {
+		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
+		implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
+		compile 'io.springfox:springfox-swagger2:2.7.0'
 
 	}
 }

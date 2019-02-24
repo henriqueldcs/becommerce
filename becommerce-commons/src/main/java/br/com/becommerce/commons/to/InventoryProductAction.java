@@ -1,4 +1,4 @@
-package io.swagger.model;
+package br.com.becommerce.commons.to;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
