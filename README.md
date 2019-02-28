@@ -82,9 +82,25 @@ Executar um projeto específico:
 Projetos executaveis:
 - api-gateway
 - product-management-service   
-- swagger-api 
-    
+- swagger-api
 
+## Teste de integração (test-api)
+
+O projeto test-api contem testes de chamadas às apis implementadas. Para executá-lo é preciso que o projeto já esteja em execução.
+
+Para isso execute:
+
+    ./gradlew bootRun --parallel -Dspring.profiles.active=dev
+    
+e em seguida, através do eclipse/intellij:
+
+    Abrir a classe ProductResourceTest e executar os casos te deste.
+    
+### Melorias:
+O teste de integração precisa ser executado através das task do grade.
+Devido à disponibilidade de tempo essas configurações não foram realizadas.
+
+    
 ## Tecnologias utilizadas
     
     - Java 10
