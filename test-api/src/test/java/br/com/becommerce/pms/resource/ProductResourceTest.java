@@ -18,6 +18,7 @@ public class ProductResourceTest {
 
         RestAssured.given()
                 .relaxedHTTPSValidation()
+                .header("api_key", "")
                 .param("page", "0")
                 .param("size", "1")
                 .param("referenceCode", "p1")

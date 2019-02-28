@@ -3,10 +3,7 @@ package br.com.becommerce.pms.resource;
 import br.com.becommerce.pms.model.Product;
 import br.com.becommerce.pms.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,8 @@ public class ProductResource {
     private ProductService productService;
 
     @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<Product> listProducts(@RequestParam(value = "referenceCode", required = false) final String referenceCode,
+    public List<Product> listProducts(@RequestHeader(value = "api_key") final String apiKey,
+                                      @RequestParam(value = "referenceCode", required = false) final String referenceCode,
                                       @RequestParam(value = "page", required = false) final Integer page,
                                       @RequestParam(value = "size", required = false) final Integer size) {
 
