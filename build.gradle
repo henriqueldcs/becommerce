@@ -64,7 +64,7 @@ project(":api-gateway") {
 	mainClassName = 'br.com.becommerce.api.gateway.ApiGatewayApplication'
 
 	dependencies {
-
+		implementation(project(":becommerce-commons"))
 		implementation("org.springframework.boot:spring-boot-starter:${springBootVersion}")
 		implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
 		implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
@@ -152,6 +152,10 @@ project(":becommerce-commons") {
 		implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
 		compile 'io.springfox:springfox-swagger2:2.7.0'
+
+        implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
+            exclude module: "spring-boot-starter-tomcat"
+        }
 
 	}
 }
