@@ -5,8 +5,8 @@
  */
 package io.swagger.api;
 
+import br.com.becommerce.commons.to.Product;
 import io.swagger.annotations.*;
-import io.swagger.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,48 +1,49 @@
-package io.swagger.model;
+package br.com.becommerce.commons.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * InventoryProduct
+ * Inventory
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
-public class InventoryProduct   {
-  @JsonProperty("product")
-  private Product product = null;
+public class Inventory   {
+  @JsonProperty("productReferenceCode")
+  private String productReferenceCode = null;
 
   @JsonProperty("amount")
   private BigDecimal amount = null;
 
-  public InventoryProduct product(Product product) {
-    this.product = product;
+  public Inventory productReferenceCode(String productReferenceCode) {
+    this.productReferenceCode = productReferenceCode;
     return this;
   }
 
   /**
-   * Get product
-   * @return product
+   * Get productReferenceCode
+   * @return productReferenceCode
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "P123", required = true, value = "")
+  @NotNull
 
-  @Valid
 
-  public Product getProduct() {
-    return product;
+  public String getProductReferenceCode() {
+    return productReferenceCode;
   }
 
-  public void setProduct(Product product) {
-    this.product = product;
+  public void setProductReferenceCode(String productReferenceCode) {
+    this.productReferenceCode = productReferenceCode;
   }
 
-  public InventoryProduct amount(BigDecimal amount) {
+  public Inventory amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -51,7 +52,8 @@ public class InventoryProduct   {
    * Get amount
    * @return amount
   **/
-  @ApiModelProperty(example = "7.5", value = "")
+  @ApiModelProperty(example = "7.5", required = true, value = "")
+  @NotNull
 
   @Valid
 
@@ -72,22 +74,22 @@ public class InventoryProduct   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InventoryProduct inventoryProduct = (InventoryProduct) o;
-    return Objects.equals(this.product, inventoryProduct.product) &&
-        Objects.equals(this.amount, inventoryProduct.amount);
+    Inventory inventory = (Inventory) o;
+    return Objects.equals(this.productReferenceCode, inventory.productReferenceCode) &&
+        Objects.equals(this.amount, inventory.amount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(product, amount);
+    return Objects.hash(productReferenceCode, amount);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InventoryProduct {\n");
+    sb.append("class Inventory {\n");
     
-    sb.append("    product: ").append(toIndentedString(product)).append("\n");
+    sb.append("    productReferenceCode: ").append(toIndentedString(productReferenceCode)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("}");
     return sb.toString();

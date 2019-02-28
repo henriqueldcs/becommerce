@@ -1,49 +1,48 @@
-package io.swagger.model;
+package br.com.becommerce.commons.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Inventory
+ * InventoryProduct
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
-public class Inventory   {
-  @JsonProperty("productReferenceCode")
-  private String productReferenceCode = null;
+public class InventoryProduct   {
+  @JsonProperty("product")
+  private Product product = null;
 
   @JsonProperty("amount")
   private BigDecimal amount = null;
 
-  public Inventory productReferenceCode(String productReferenceCode) {
-    this.productReferenceCode = productReferenceCode;
+  public InventoryProduct product(Product product) {
+    this.product = product;
     return this;
   }
 
   /**
-   * Get productReferenceCode
-   * @return productReferenceCode
+   * Get product
+   * @return product
   **/
-  @ApiModelProperty(example = "P123", required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getProductReferenceCode() {
-    return productReferenceCode;
+  public Product getProduct() {
+    return product;
   }
 
-  public void setProductReferenceCode(String productReferenceCode) {
-    this.productReferenceCode = productReferenceCode;
+  public void setProduct(Product product) {
+    this.product = product;
   }
 
-  public Inventory amount(BigDecimal amount) {
+  public InventoryProduct amount(BigDecimal amount) {
     this.amount = amount;
     return this;
   }
@@ -52,8 +51,7 @@ public class Inventory   {
    * Get amount
    * @return amount
   **/
-  @ApiModelProperty(example = "7.5", required = true, value = "")
-  @NotNull
+  @ApiModelProperty(example = "7.5", value = "")
 
   @Valid
 
@@ -74,22 +72,22 @@ public class Inventory   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Inventory inventory = (Inventory) o;
-    return Objects.equals(this.productReferenceCode, inventory.productReferenceCode) &&
-        Objects.equals(this.amount, inventory.amount);
+    InventoryProduct inventoryProduct = (InventoryProduct) o;
+    return Objects.equals(this.product, inventoryProduct.product) &&
+        Objects.equals(this.amount, inventoryProduct.amount);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(productReferenceCode, amount);
+    return Objects.hash(product, amount);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Inventory {\n");
+    sb.append("class InventoryProduct {\n");
     
-    sb.append("    productReferenceCode: ").append(toIndentedString(productReferenceCode)).append("\n");
+    sb.append("    product: ").append(toIndentedString(product)).append("\n");
     sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
     sb.append("}");
     return sb.toString();

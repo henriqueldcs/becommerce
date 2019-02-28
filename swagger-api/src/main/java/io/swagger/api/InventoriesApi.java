@@ -5,10 +5,10 @@
  */
 package io.swagger.api;
 
+import br.com.becommerce.commons.to.Inventory;
+import br.com.becommerce.commons.to.InventoryProduct;
+import br.com.becommerce.commons.to.InventoryProductAction;
 import io.swagger.annotations.*;
-import io.swagger.model.Inventory;
-import io.swagger.model.InventoryProduct;
-import io.swagger.model.InventoryProductAction;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

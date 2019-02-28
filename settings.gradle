@@ -3,5 +3,7 @@ rootProject.name = 'becommerce'
 include 'api-gateway'
 include 'product-management-service'
 include 'swagger-api'
+include 'becommerce-commons'
+include 'test-api'
 
 
