@@ -36,7 +36,7 @@ public class APIProductResource {
 		log.info(String.format("m=listProducts,requestUUID=%s, page=%s, size=%s, referenceCode=%s, api_key=%s",
 				requestUUID, page, size, referenceCode, apiKey));
 
-		String urlWithParams = RequestURL.PRODUCT_RESOURCE + String.format("?%s=%s&%s=%s&%s=%s&%s=%s&",
+		String urlWithParams = RequestURL.PRODUCT_RESOURCE + String.format("?%s=%s&%s=%s&%s=%s&%s=%s",
 				REQUEST_UUID,requestUUID, //
 				REFERENCE_CODE, Strings.nullToEmpty(referenceCode), //
 				PAGE, page != null ? page : "", //
