@@ -14,6 +14,8 @@ São eles:
     
     - API Gateway
     - Product Management Service
+    - Becommerce commons
+    - Api Test
         
 #### Api gateway
 Serviço responsável por receber todas as requisições de entrada, validar o token enviado, 
@@ -23,6 +25,13 @@ Em desenvolvimento foi considerado apenas um token default, que será substituid
 
 #### Product Management Service  
 Serviço responsável por manter o cadastro de produtos.
+
+#### Becommerce commons
+Projeto utilizado para empacotar classes comuns a todos os projetos para reutilização de código. Podem ser colocadas classes como TOs, úteis e etc.
+
+####  Api Test
+Neste projeto são inseridos testes para validar o retorno à chamadas das APIs criadas.
+
 
 
 ## Documentação
@@ -62,9 +71,36 @@ Foram criados os perfis abaixo, para execução em ambiente de desenvolvimento, 
 Para rodar o projeto basta executar o comando, no terminal, no diretório do do projeto. Três perfis, citados acima, foram 
 disponibilizados para a execução do projeto, dev, qa e prod. 
 
+Executar todos os projetos:
+
+    ./gradlew bootRun --parallel -Dspring.profiles.active=dev
+
+Executar um projeto específico:
+
+    ./gradlew api-gatewy:bootRun -Dspring.profiles.active=dev
+    
+Projetos executaveis:
+- api-gateway
+- product-management-service   
+- swagger-api
+
+## Teste de integração (test-api)
+
+O projeto test-api contem testes de chamadas às apis implementadas. Para executá-lo é preciso que o projeto já esteja em execução.
+
+Para isso execute:
+
     ./gradlew bootRun --parallel -Dspring.profiles.active=dev
     
+e em seguida, através do eclipse/intellij:
 
+    Abrir a classe ProductResourceTest e executar os casos te deste.
+    
+### Melorias:
+O teste de integração precisa ser executado através das task do grade.
+Devido à disponibilidade de tempo essas configurações não foram realizadas.
+
+    
 ## Tecnologias utilizadas
     
     - Java 10
@@ -73,6 +109,7 @@ disponibilizados para a execução do projeto, dev, qa e prod.
     - Gradle
     - Git
     - Lombok
+
     
 ## Suporte
 

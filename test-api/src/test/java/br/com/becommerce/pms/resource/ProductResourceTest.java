@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.UUID;
+
 @RunWith(SpringRunner.class)
 public class ProductResourceTest {
 
@@ -21,6 +23,7 @@ public class ProductResourceTest {
                 .header("api_key", "")
                 .param("page", "0")
                 .param("size", "1")
+                .param("requestUUID", UUID.randomUUID())
                 .param("referenceCode", "p1")
                 .when()
                 .get(uriBase)

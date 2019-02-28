@@ -41,7 +41,7 @@ public interface ProductsApi {
     @RequestMapping(value = "/products",
             produces = { "application/json" },
             method = RequestMethod.GET)
-    ResponseEntity<List<Product>> listProducts(
+    ResponseEntity<List> listProducts(
             @ApiParam(value = "Número da página a ser retornada", defaultValue = "0") @Valid @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
             @ApiParam(value = "Tamanho da página a ser retornada", defaultValue = "10") @Valid @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
             @ApiParam(value = "Código de referência do produto") @Valid @RequestParam(value = "referenceCode", required = false) String referenceCode,
