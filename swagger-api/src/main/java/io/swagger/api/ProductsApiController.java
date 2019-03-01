@@ -18,10 +18,11 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static br.com.becommerce.commons.util.RequestUtil.doGetList;
+import static br.com.becommerce.commons.util.RequestUtil.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
@@ -40,9 +41,27 @@ public class ProductsApiController implements ProductsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> addProduct(@ApiParam(value = "Informado para adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
+    public ResponseEntity<String> addProduct(@ApiParam(value = "Informado para adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        final String requestUUID = generateRequestUUID();
+        final String url = ApiGatewayURL.PRODUCT_RESOURCE;
+
+
+        try {
+            return doPost(url, Map.of("api_key", apiKey), product);
+
+        } catch (HttpClientErrorException e) {
+
+            log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+        } catch (Exception e) {
+
+            log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     public ResponseEntity<List> listProducts(
@@ -62,7 +81,7 @@ public class ProductsApiController implements ProductsApi {
                 try {
                     return doGetList(urlWithParams, Map.of("api_key", apiKey));
                 } catch (HttpClientErrorException e) {
-                    return new ResponseEntity<List>(e.getStatusCode());
+                    return ResponseEntity.status(e.getStatusCode()).body(Arrays.asList(e.getResponseBodyAsString()));
                 }
         }
 

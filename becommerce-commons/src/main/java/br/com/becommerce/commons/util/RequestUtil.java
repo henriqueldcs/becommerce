@@ -1,6 +1,5 @@
 package br.com.becommerce.commons.util;
 
-import br.com.becommerce.commons.to.Product;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,7 +32,7 @@ public class RequestUtil {
 		return response;
 	}
 
-	public static ResponseEntity<String> doPost(String url, Map<String, String> headerParams, Product product) {
+	public static ResponseEntity<String> doPost(String url, Map<String, String> headerParams, Object product) {
 
 		RestTemplate restTemplate = new RestTemplate();
 
@@ -44,25 +43,9 @@ public class RequestUtil {
 						headers.set(key,value);
 				}
 		);
-		final HttpEntity<Product> entity = new HttpEntity<>(product, headers);
+		final HttpEntity<Object> entity = new HttpEntity<>(product, headers);
 
 		return restTemplate.postForEntity(url, entity, String.class);
-	}
-
-	public static ResponseEntity<String> doPost2(String url, Map<String, String> headerParams, Product product) {
-
-		RestTemplate restTemplate = new RestTemplate();
-
-		final HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		headerParams.forEach((key,value) -> {
-					if(key != null && value != null)
-						headers.set(key,value);
-				}
-		);
-		final HttpEntity<Product> entity = new HttpEntity<>(product, headers);
-
-		return restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 	}
 
 }
