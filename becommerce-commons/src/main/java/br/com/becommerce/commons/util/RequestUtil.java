@@ -49,5 +49,20 @@ public class RequestUtil {
 		return restTemplate.postForEntity(url, entity, String.class);
 	}
 
+	public static ResponseEntity<String> doPost2(String url, Map<String, String> headerParams, Product product) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headerParams.forEach((key,value) -> {
+					if(key != null && value != null)
+						headers.set(key,value);
+				}
+		);
+		final HttpEntity<Product> entity = new HttpEntity<>(product, headers);
+
+		return restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+	}
 
 }

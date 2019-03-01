@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,7 +52,7 @@ public class APIProductResource {
 		final ResponseEntity<List> response = doGetList(urlWithParams, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID));
 
 		if(Objects.isNull(response) || response.getBody().isEmpty()) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Arrays.asList("Produto não encontrado!"));
 		}
 
 		return response;
@@ -70,8 +72,16 @@ public class APIProductResource {
 
 		try {
 			return doPost(url, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID), product);
+
+		} catch (HttpClientErrorException e) {
+
+			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
 		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Reference code já cadastrado ou nome/reference code não informados.");
+
+			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
