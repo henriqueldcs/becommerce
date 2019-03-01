@@ -63,4 +63,20 @@ public class RequestUtil {
 
 		return restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
 	}
+
+
+	public static ResponseEntity<String> doDelete(String url, Map<String, String> headerParams) {
+
+		RestTemplate restTemplate = new RestTemplate();
+
+		final HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headerParams.forEach((key,value) -> {
+					if(key != null && value != null)
+						headers.set(key,value);
+				}
+		);
+		final HttpEntity<Object> entity = new HttpEntity<>(headers);
+		return restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+	}
 }

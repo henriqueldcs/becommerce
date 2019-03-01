@@ -1,5 +1,6 @@
 package br.com.becommerce.commons;
 
+import br.com.becommerce.commons.constants.MessageConstants;
 import br.com.becommerce.commons.exception.NotAuthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -34,11 +35,10 @@ public class TokenValidationAspect {
 			return joinPoint.proceed();
 
 		} catch (NotAuthorizedException e) {
-			String message = "Api Key inválida!";
-			log.error(String.format("m=validateToken, message=%s, api_key=%s", message, apiKey));
+			log.error(String.format("m=validateToken, message=%s, api_key=%s", MessageConstants.UNAUTHORIZED_API_KEY, apiKey));
 
 			HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-			response.sendError(HttpStatus.UNAUTHORIZED.value(), message);
+			response.sendError(HttpStatus.UNAUTHORIZED.value(), MessageConstants.UNAUTHORIZED_API_KEY);
 			return null;
 		}
 	}

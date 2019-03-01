@@ -1,11 +1,13 @@
 package br.com.becommerce.pms.exception;
 
+import br.com.becommerce.commons.constants.MessageConstants;
+
 public class ProductAlreadyExists extends Exception{
 
-	public static final String MESSAGE = "ReferenceCode já cadastrado!";
+
 
 	public ProductAlreadyExists() {
-		super(MESSAGE);
+		super(MessageConstants.REFERENCE_CODE_ALREADY_EXISTS);
 	}
 
 }

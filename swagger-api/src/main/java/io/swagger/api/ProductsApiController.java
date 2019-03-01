@@ -43,7 +43,6 @@ public class ProductsApiController implements ProductsApi {
     }
 
     public ResponseEntity<String> addProduct(@ApiParam(value = "Informado para adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
-        String accept = request.getHeader("Accept");
 
         final String requestUUID = generateRequestUUID();
         final String url = ApiGatewayURL.PRODUCT_RESOURCE;
@@ -89,13 +88,32 @@ public class ProductsApiController implements ProductsApi {
         return new ResponseEntity<List>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> removeProduct(@ApiParam(value = "Código de referência do produto a remover",required=true) @PathVariable("referenceCode") String referenceCode, @RequestHeader(name = "api_key")  String apiKey) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<String> removeProduct(@ApiParam(value = "Código de referência do produto a remover",required=true) @PathVariable("referenceCode") String referenceCode, @RequestHeader(name = "api_key")  String apiKey) {
+
+        final String requestUUID = generateRequestUUID();
+        final String url = ApiGatewayURL.PRODUCT_RESOURCE + "/" + referenceCode;
+
+        log.info(String.format("m=deleteProducts,requestUUID=%s, product=%s, api_key=%s, url=%s",
+                requestUUID, referenceCode, apiKey, url));
+
+        try {
+            return doDelete(url, Map.of("api_key", apiKey));
+
+        } catch (HttpStatusCodeException e) {
+
+            log.error(String.format("m=deleteProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+        } catch (Exception e) {
+
+            log.error(String.format("m=deleteProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
+
     public ResponseEntity<String> updateProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
-        String accept = request.getHeader("Accept");
 
         final String requestUUID = generateRequestUUID();
         final String url = ApiGatewayURL.PRODUCT_RESOURCE;

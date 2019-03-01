@@ -55,10 +55,10 @@ public interface ProductsApi {
             @ApiResponse(code = 200, message = "OK. Produto removido"),
             @ApiResponse(code = 401, message = "Token inválido"),
             @ApiResponse(code = 403, message = "Não foi possível remover o produto")})
-    @RequestMapping(value = "/products",
+    @RequestMapping(value = "/products/{referenceCode}",
             produces = {"application/json"},
             method = RequestMethod.DELETE)
-    ResponseEntity<Void> removeProduct(@ApiParam(value = "Código de referência do produto a remover", required = true) @PathVariable("referenceCode") String referenceCode, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<String> removeProduct(@ApiParam(value = "Código de referência do produto a remover", required = true) @PathVariable("referenceCode") String referenceCode, @RequestHeader(name = "api_key")  String apiKey);
 
 
     @ApiOperation(value = "Alterar um produto cadastrado.", nickname = "updateProduct", notes = "Recurso usado para fazer a alteração de produtos do sistema.", authorizations = {

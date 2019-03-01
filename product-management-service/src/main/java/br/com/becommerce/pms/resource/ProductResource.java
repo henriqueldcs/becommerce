@@ -81,4 +81,20 @@ public class ProductResource {
         }
     }
 
+    @TokenValidation
+    @DeleteMapping(consumes = APPLICATION_JSON_UTF8_VALUE, value = "/{referenceCode}")
+    public ResponseEntity<String> deleteProduct(@RequestHeader(value = "api_key") final String apiKey,
+                                                @RequestHeader(value = "requestUUID") final String requestUUID,
+                                                @PathVariable final String referenceCode) {
+
+        log.info(String.format("m=deleteProduct,requestUUID=%s, product=%s, api_key=%s",
+                requestUUID, referenceCode, apiKey));
+        try {
+            productService.deleteProduct(referenceCode);
+            return ResponseEntity.status(HttpStatus.OK).body(MessageConstants.DELETE_SUCCESS_MESSAGE);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }
