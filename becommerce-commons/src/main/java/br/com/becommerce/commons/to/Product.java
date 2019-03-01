@@ -23,6 +23,17 @@ public class Product   {
   @JsonProperty("description")
   private String description = null;
 
+
+  public Product(){
+
+  }
+
+  public Product(String name, String description, String referenceCode) {
+    this.name = name;
+    this.description = description;
+    this.referenceCode = referenceCode;
+  }
+
   public Product name(String name) {
     this.name = name;
     return this;
