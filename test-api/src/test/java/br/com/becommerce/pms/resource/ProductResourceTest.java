@@ -9,20 +9,25 @@ import org.hamcrest.Matchers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ProductResourceTest {
 
+    private static final String URI_BASE = "http://localhost:5005";
+    private String referenceCode = "TESTE1234";
 
     @Test
-    public void listProducts() {
+    public void b_listProducts() {
 
-        String uriBase = "http://localhost:5005/products";
+        String uriBase = URI_BASE + "/products";
 
         RestAssured.given()
                 .relaxedHTTPSValidation()
@@ -30,34 +35,30 @@ public class ProductResourceTest {
                 .header("requestUUID", UUID.randomUUID().toString())
                 .param("page", "0")
                 .param("size", "1")
-                .param("referenceCode", "p1")
+                .param("referenceCode", referenceCode)
                 .when()
                 .get(uriBase)
                 .then()
                 .statusCode(200) // O status http retornado foi 200
                 .contentType(ContentType.JSON) // O response foi retornado no formato JSON
-                .body("name", Matchers.hasItem("pro1"))
+                .body("referenceCode", Matchers.hasItem(referenceCode))
                 .body("", Matchers.hasSize(1)); // A chave "host" possui exatamente o valor "postman-echo.com"
-
     }
 
     @Test
-    public void addProducts() throws JSONException {
+    public void a_addProducts() throws JSONException {
 
-        final String uriBase = "http://localhost:5005";
-
-        RestAssured.baseURI = uriBase;
+        RestAssured.baseURI = URI_BASE;
         RequestSpecification request = RestAssured.given();
-        String uuid = UUID.randomUUID().toString();
 
         JSONObject requestParams = new JSONObject();
         requestParams.put("description", "dddddddddddddd");
         requestParams.put("name", "dddddddddddddd");
-        requestParams.put("referenceCode", uuid);
+        requestParams.put("referenceCode", referenceCode);
 
         request.header("Content-Type", "application/json");
         request.header("api_key", "Gdu2vkyfKrzb0OdZuoPP");
-        request.header("requestUUID", uuid);
+        request.header("requestUUID", UUID.randomUUID().toString());
 
         request.body(requestParams.toString());
 
@@ -71,22 +72,19 @@ public class ProductResourceTest {
     }
 
     @Test
-    public void updateProducts() throws JSONException {
+    public void c_updateProducts() throws JSONException {
 
-        final String uriBase = "http://localhost:5005";
-
-        RestAssured.baseURI = uriBase;
+        RestAssured.baseURI = URI_BASE;
         RequestSpecification request = RestAssured.given();
-        String uuid = UUID.randomUUID().toString();
 
         JSONObject requestParams = new JSONObject();
         requestParams.put("description", "dddddddddddddd");
         requestParams.put("name", "dddddddddddddd");
-        requestParams.put("referenceCode", "p1");
+        requestParams.put("referenceCode", referenceCode);
 
         request.header("Content-Type", "application/json");
         request.header("api_key", "Gdu2vkyfKrzb0OdZuoPP");
-        request.header("requestUUID", uuid);
+        request.header("requestUUID", UUID.randomUUID().toString());
 
         request.body(requestParams.toString());
         Response response = request.put("/products");
@@ -95,5 +93,23 @@ public class ProductResourceTest {
         Assert.assertEquals(statusCode, 200);
         String message = response.asString();
         Assert.assertEquals(MessageConstants.UPDATE_SUCCESS_MESSAGE, message);
+    }
+
+    @Test
+    public void d_deleteProducts() throws JSONException {
+
+        RestAssured.baseURI = URI_BASE;
+        RequestSpecification request = RestAssured.given();
+
+        request.header("Content-Type", "application/json");
+        request.header("api_key", "Gdu2vkyfKrzb0OdZuoPP");
+        request.header("requestUUID", UUID.randomUUID().toString());
+
+        Response response = request.delete("/products/" + referenceCode);
+
+        int statusCode = response.getStatusCode();
+        Assert.assertEquals(statusCode, 200);
+        String message = response.asString();
+        Assert.assertEquals(MessageConstants.DELETE_SUCCESS_MESSAGE, message);
     }
 }
