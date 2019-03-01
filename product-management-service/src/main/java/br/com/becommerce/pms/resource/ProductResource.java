@@ -2,6 +2,7 @@ package br.com.becommerce.pms.resource;
 
 import br.com.becommerce.commons.annotation.TokenValidation;
 import br.com.becommerce.pms.exception.ProductAlreadyExists;
+import br.com.becommerce.pms.exception.ProductNotFound;
 import br.com.becommerce.pms.model.Product;
 import br.com.becommerce.pms.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -57,4 +58,26 @@ public class ProductResource {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
+
+    @TokenValidation
+    @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<String> updateProduct(@RequestHeader(value = "api_key") final String apiKey,
+                                              @RequestHeader(value = "requestUUID") final String requestUUID,
+                                              @RequestBody final Product product) {
+
+        log.info(String.format("m=updateProduct,requestUUID=%s, product=%s, api_key=%s",
+                requestUUID, product, apiKey));
+
+        try {
+            productService.updateProduct(product);
+            return ResponseEntity.status(HttpStatus.OK).body("Produto alterado com sucesso!");
+        } catch (ProductNotFound e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
 }

@@ -11,7 +11,9 @@ import java.util.List;
 public interface ProductRepository extends PagingAndSortingRepository<Product, Integer> {
 
 
-    List<Product> findAllByReferenceCodeContaining(String referenceCode, Pageable pageable);
+	List<Product> findAllByReferenceCodeContaining(String referenceCode, Pageable pageable);
+
+	Product findByReferenceCode(String referenceCode);
 
 	boolean existsByReferenceCode(String referenceCode);
 }

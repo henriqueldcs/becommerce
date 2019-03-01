@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -93,9 +94,27 @@ public class ProductsApiController implements ProductsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> updateProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
+    public ResponseEntity<String> updateProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        final String requestUUID = generateRequestUUID();
+        final String url = ApiGatewayURL.PRODUCT_RESOURCE;
+
+
+        try {
+            return doPut(url, Map.of("api_key", apiKey), product);
+
+        } catch (HttpStatusCodeException e) {
+
+            log.error(String.format("m=updateProduct,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+        } catch (Exception e) {
+
+            log.error(String.format("m=updateProduct,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }

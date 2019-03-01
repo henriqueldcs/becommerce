@@ -69,8 +69,8 @@ public interface ProductsApi {
             @ApiResponse(code = 401, message = "Token inválido"),
             @ApiResponse(code = 404, message = "Produto não encontrado")})
     @RequestMapping(value = "/products",
-            produces = {"application/json"},
+            consumes = {"application/json"},
             method = RequestMethod.PUT)
-    ResponseEntity<Void> updateProduct(@ApiParam(value = "Campos informados na adição de um produto.", required = true) @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<String> updateProduct(@ApiParam(value = "Campos informados na adição de um produto.", required = true) @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey);
 
 }

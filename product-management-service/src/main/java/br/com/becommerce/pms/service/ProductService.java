@@ -1,6 +1,7 @@
 package br.com.becommerce.pms.service;
 
 import br.com.becommerce.pms.exception.ProductAlreadyExists;
+import br.com.becommerce.pms.exception.ProductNotFound;
 import br.com.becommerce.pms.model.Product;
 import br.com.becommerce.pms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static br.com.becommerce.commons.constants.DatabaseConstants.PAGE_NUMBER_DEFAULT;
 import static br.com.becommerce.commons.constants.DatabaseConstants.PAGE_SIZE_DEFAULT;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
 
 @Service
@@ -27,12 +29,29 @@ public class ProductService {
         return productRepository.findAllByReferenceCodeContaining(nullToEmpty(referenceCode), PageRequest.of(pageNumber, pageSize));
     }
 
-	public void addProduct(Product product) throws ProductAlreadyExists {
+	public void addProduct(final Product product) throws ProductAlreadyExists {
 
     	if(productRepository.existsByReferenceCode(product.getReferenceCode())) {
     		throw new ProductAlreadyExists();
 		}
 
     	productRepository.save(product);
+	}
+
+	public void updateProduct(final Product product) throws ProductNotFound {
+
+    	Product productFromDatabase = productRepository.findByReferenceCode(product.getReferenceCode());
+
+		if(productFromDatabase == null) {
+			throw new ProductNotFound();
+		}
+
+		if(!isNullOrEmpty(product.getDescription()))
+			productFromDatabase.setDescription(product.getDescription());
+
+		if(!isNullOrEmpty(product.getName()))
+			productFromDatabase.setName(product.getName());
+
+		productRepository.save(productFromDatabase);
 	}
 }
