@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,4 +86,30 @@ public class APIProductResource {
 		}
 	}
 
+
+	@TokenValidation
+	@PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<String> updateProducts(@RequestHeader(value = "api_key") final String apiKey,
+											  @RequestBody final Product product) {
+
+		final String requestUUID = generateRequestUUID();
+		final String url = RequestURL.PRODUCT_RESOURCE;
+
+		log.info(String.format("m=addProducts,requestUUID=%s, product=%s, api_key=%s, url=%s",
+				requestUUID, product, apiKey, url));
+
+		try {
+			return doPut(url, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID), product);
+
+		} catch (HttpStatusCodeException e) {
+
+			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+		} catch (Exception e) {
+
+			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }

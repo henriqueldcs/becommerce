@@ -12,6 +12,7 @@ import java.util.List;
 
 import static br.com.becommerce.commons.constants.DatabaseConstants.PAGE_NUMBER_DEFAULT;
 import static br.com.becommerce.commons.constants.DatabaseConstants.PAGE_SIZE_DEFAULT;
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Strings.nullToEmpty;
 
 @Service
@@ -44,8 +45,13 @@ public class ProductService {
 		if(productFromDatabase == null) {
 			throw new ProductNotFound();
 		}
-		productFromDatabase.setDescription(product.getDescription());
-		productFromDatabase.setName(product.getName());
+
+		if(!isNullOrEmpty(product.getDescription()))
+			productFromDatabase.setDescription(product.getDescription());
+
+		if(!isNullOrEmpty(product.getName()))
+			productFromDatabase.setName(product.getName());
+
 		productRepository.save(productFromDatabase);
 	}
 }
