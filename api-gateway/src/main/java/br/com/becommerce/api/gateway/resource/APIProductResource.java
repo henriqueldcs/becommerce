@@ -95,7 +95,7 @@ public class APIProductResource {
 		final String requestUUID = generateRequestUUID();
 		final String url = RequestURL.PRODUCT_RESOURCE;
 
-		log.info(String.format("m=addProducts,requestUUID=%s, product=%s, api_key=%s, url=%s",
+		log.info(String.format("m=updateProducts,requestUUID=%s, product=%s, api_key=%s, url=%s",
 				requestUUID, product, apiKey, url));
 
 		try {
@@ -103,12 +103,38 @@ public class APIProductResource {
 
 		} catch (HttpStatusCodeException e) {
 
-			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			log.error(String.format("m=updateProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
 			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
 
 		} catch (Exception e) {
 
-			log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			log.error(String.format("m=updateProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	@TokenValidation
+	@DeleteMapping("{referenceCode}")
+	public ResponseEntity<String> deleteProducts(@RequestHeader(value = "api_key") final String apiKey,
+												 @PathVariable final String referenceCode) {
+
+		final String requestUUID = generateRequestUUID();
+		final String url = RequestURL.PRODUCT_RESOURCE + "/" + referenceCode;
+
+		log.info(String.format("m=deleteProducts,requestUUID=%s, product=%s, api_key=%s, url=%s",
+				requestUUID, referenceCode, apiKey, url));
+
+		try {
+			return doDelete(url, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID));
+
+		} catch (HttpStatusCodeException e) {
+
+			log.error(String.format("m=deleteProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+		} catch (Exception e) {
+
+			log.error(String.format("m=deleteProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 		}
 	}
