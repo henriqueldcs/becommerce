@@ -2,6 +2,7 @@ package br.com.becommerce.api.gateway.resource;
 
 import br.com.becommerce.api.gateway.util.RequestURL;
 import br.com.becommerce.commons.annotation.TokenValidation;
+import br.com.becommerce.commons.constants.MessageConstants;
 import br.com.becommerce.commons.to.Product;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class APIProductResource {
 		final ResponseEntity<List> response = doGetList(urlWithParams, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID));
 
 		if(Objects.isNull(response) || response.getBody().isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Arrays.asList("Produto não encontrado!"));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Arrays.asList(MessageConstants.PRODUCT_NOT_FOUND));
 		}
 
 		return response;
