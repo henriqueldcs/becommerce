@@ -1,7 +1,6 @@
 package br.com.becommerce.pms.resource;
 
 import br.com.becommerce.commons.annotation.TokenValidation;
-import br.com.becommerce.commons.constants.MessageConstants;
 import br.com.becommerce.pms.exception.ProductAlreadyExists;
 import br.com.becommerce.pms.exception.ProductNotFound;
 import br.com.becommerce.pms.model.Product;
@@ -50,7 +49,7 @@ public class ProductResource {
 
         try {
             productService.addProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body(MessageConstants.CREATE_SUCCESS_MESSAGE);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Produto cadastrado com sucesso!");
         } catch (ProductAlreadyExists e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         } catch (ConstraintViolationException e) {
@@ -71,7 +70,7 @@ public class ProductResource {
 
         try {
             productService.updateProduct(product);
-            return ResponseEntity.status(HttpStatus.OK).body(MessageConstants.UPDATE_SUCCESS_MESSAGE);
+            return ResponseEntity.status(HttpStatus.OK).body("Produto alterado com sucesso!");
         } catch (ProductNotFound e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (ConstraintViolationException e) {

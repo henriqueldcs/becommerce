@@ -1,6 +1,5 @@
 package br.com.becommerce.pms.resource;
 
-import br.com.becommerce.commons.constants.MessageConstants;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -68,36 +67,8 @@ public class ProductResourceTest {
         int statusCode = response.getStatusCode();
         Assert.assertEquals(statusCode, 201);
         String message = response.asString();
-        Assert.assertEquals(MessageConstants.CREATE_SUCCESS_MESSAGE, message);
+        Assert.assertEquals( SUCCESS_MESSAGE, message);
 
     }
 
-    @Test
-    public void updateProducts() throws JSONException {
-
-        final String uriBase = "http://localhost:5005";
-
-        RestAssured.baseURI = uriBase;
-        RequestSpecification request = RestAssured.given();
-        String uuid = UUID.randomUUID().toString();
-
-        JSONObject requestParams = new JSONObject();
-        requestParams.put("description", "dddddddddddddd");
-        requestParams.put("name", "dddddddddddddd");
-        requestParams.put("referenceCode", "p1");
-
-        request.header("Content-Type", "application/json");
-        request.header("api_key", "Gdu2vkyfKrzb0OdZuoPP");
-        request.header("requestUUID", uuid);
-
-        request.body(requestParams.toString());
-
-        Response response = request.put("/products");
-
-
-        int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 200);
-        String message = response.asString();
-        Assert.assertEquals(MessageConstants.UPDATE_SUCCESS_MESSAGE, message);
-    }
 }
