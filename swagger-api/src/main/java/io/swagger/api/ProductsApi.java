@@ -28,7 +28,7 @@ public interface ProductsApi {
     @RequestMapping(value = "/products",
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<Void> addProduct(@ApiParam(value = "Informado para adição de um produto.", required = true) @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<String> addProduct(@ApiParam(value = "Informado para adição de um produto.", required = true) @Valid @RequestBody Product product, @RequestHeader(name = "api_key")  String apiKey);
 
 
     @ApiOperation(value = "Listar produtos cadastrados.", nickname = "listProducts", notes = "Recurso usado para listar produtos do sistema.", response = Product.class, responseContainer = "List", authorizations = {

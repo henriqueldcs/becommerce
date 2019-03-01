@@ -1,5 +1,6 @@
 package br.com.becommerce.pms.service;
 
+import br.com.becommerce.pms.exception.ProductAlreadyExists;
 import br.com.becommerce.pms.model.Product;
 import br.com.becommerce.pms.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,12 @@ public class ProductService {
         return productRepository.findAllByReferenceCodeContaining(nullToEmpty(referenceCode), PageRequest.of(pageNumber, pageSize));
     }
 
+	public void addProduct(Product product) throws ProductAlreadyExists {
+
+    	if(productRepository.existsByReferenceCode(product.getReferenceCode())) {
+    		throw new ProductAlreadyExists();
+		}
+
+    	productRepository.save(product);
+	}
 }

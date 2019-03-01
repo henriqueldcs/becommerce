@@ -40,8 +40,6 @@ public class TokenValidationAspect {
 			HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
 			response.sendError(HttpStatus.UNAUTHORIZED.value(), message);
 			return null;
-
-//			return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
 		}
 	}
 

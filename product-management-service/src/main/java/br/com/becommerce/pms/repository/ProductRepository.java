@@ -13,5 +13,5 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, I
 
     List<Product> findAllByReferenceCodeContaining(String referenceCode, Pageable pageable);
 
-
+	boolean existsByReferenceCode(String referenceCode);
 }
