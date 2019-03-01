@@ -1,4 +1,4 @@
-package br.com.becommerce.ims;
+package br.com.becommerce.ims.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
