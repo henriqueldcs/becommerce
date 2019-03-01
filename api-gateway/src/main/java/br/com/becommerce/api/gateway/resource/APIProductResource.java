@@ -1,6 +1,7 @@
 package br.com.becommerce.api.gateway.resource;
 
 import br.com.becommerce.api.gateway.util.RequestURL;
+import br.com.becommerce.commons.annotation.TokenValidation;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class APIProductResource {
 	private static final String REQUEST_UUID = "requestUUID";
 
 
+	@TokenValidation
 	@GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<List> listProducts(@RequestHeader(value = API_KEY) final String apiKey,
 													  @RequestParam(value = REFERENCE_CODE, required = false) final String referenceCode,

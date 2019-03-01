@@ -1,5 +1,6 @@
 package br.com.becommerce.pms.resource;
 
+import br.com.becommerce.commons.annotation.TokenValidation;
 import br.com.becommerce.pms.model.Product;
 import br.com.becommerce.pms.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ public class ProductResource {
     @Autowired
     private ProductService productService;
 
+    @TokenValidation
     @GetMapping(produces = APPLICATION_JSON_UTF8_VALUE)
     public List<Product> listProducts(@RequestHeader(value = "api_key") final String apiKey,
                                       @RequestParam(value = "referenceCode", required = false) final String referenceCode,

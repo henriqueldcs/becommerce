@@ -23,6 +23,8 @@ junto ao serviço de autenticação de usuários, e direcionar a requisição pa
 
 Em desenvolvimento foi considerado apenas um token default, que será substituido pelo serviço de autenticação e geração de token em um momento oportuno.
 
+O token utilizado para autenticação é **Gdu2vkyfKrzb0OdZuoPP**
+
 #### Product Management Service  
 Serviço responsável por manter o cadastro de produtos.
 
