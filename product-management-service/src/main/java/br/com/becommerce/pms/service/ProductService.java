@@ -40,11 +40,7 @@ public class ProductService {
 
 	public void updateProduct(final Product product) throws ProductNotFound {
 
-    	Product productFromDatabase = productRepository.findByReferenceCode(product.getReferenceCode());
-
-		if(productFromDatabase == null) {
-			throw new ProductNotFound();
-		}
+    	Product productFromDatabase = getProductOrException(product.getReferenceCode());
 
 		if(!isNullOrEmpty(product.getDescription()))
 			productFromDatabase.setDescription(product.getDescription());
@@ -53,5 +49,22 @@ public class ProductService {
 			productFromDatabase.setName(product.getName());
 
 		productRepository.save(productFromDatabase);
+	}
+
+	public void deleteProduct(String referenceCode) throws ProductNotFound {
+
+
+
+    	productRepository.delete(getProductOrException(referenceCode));
+	}
+
+	private Product getProductOrException(String referenceCode) throws ProductNotFound {
+
+		Product productFromDatabase = productRepository.findByReferenceCode(referenceCode);
+		if(productFromDatabase == null) {
+			throw new ProductNotFound();
+		}
+
+		return productFromDatabase;
 	}
 }

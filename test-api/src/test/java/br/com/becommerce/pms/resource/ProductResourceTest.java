@@ -44,7 +44,6 @@ public class ProductResourceTest {
     @Test
     public void addProducts() throws JSONException {
 
-        final String SUCCESS_MESSAGE = "Produto cadastrado com sucesso!";
         final String uriBase = "http://localhost:5005";
 
         RestAssured.baseURI = uriBase;
@@ -63,7 +62,6 @@ public class ProductResourceTest {
         request.body(requestParams.toString());
 
         Response response = request.post("/products");
-
 
         int statusCode = response.getStatusCode();
         Assert.assertEquals(statusCode, 201);
@@ -91,9 +89,7 @@ public class ProductResourceTest {
         request.header("requestUUID", uuid);
 
         request.body(requestParams.toString());
-
         Response response = request.put("/products");
-
 
         int statusCode = response.getStatusCode();
         Assert.assertEquals(statusCode, 200);
