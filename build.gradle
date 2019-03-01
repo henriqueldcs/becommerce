@@ -43,7 +43,9 @@ subprojects {
 		compileOnly "org.projectlombok:lombok:${lombokVersion}"
 		annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 		compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+		compile group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: springBootVersion
 		testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+
 	}
 
 	if (!System.getProperty('spring.profiles.active')) {
@@ -153,9 +155,7 @@ project(":becommerce-commons") {
 		compile 'com.github.joschi.jackson:jackson-datatype-threetenbp:2.6.4'
 		compile 'io.springfox:springfox-swagger2:2.7.0'
 
-        implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
-            exclude module: "spring-boot-starter-tomcat"
-        }
+        implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") 
 
 	}
 }
