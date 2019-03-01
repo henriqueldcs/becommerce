@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import static br.com.becommerce.commons.util.RequestUtil.doGetList;
@@ -48,7 +49,7 @@ public class APIProductResource {
 		log.info(String.format("m=listProducts,requestUUID=%s, url=%s",
 				requestUUID, urlWithParams));
 
-		ResponseEntity<List> response = doGetList(urlWithParams, apiKey);
+		ResponseEntity<List> response = doGetList(urlWithParams, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID));
 
 		if(Objects.isNull(response) || response.getBody().isEmpty()) {
 			return ResponseEntity.notFound().build();

@@ -20,7 +20,7 @@ public class Product   {
   @JsonProperty("referenceCode")
   private String referenceCode = null;
 
-  @JsonProperty("Description")
+  @JsonProperty("description")
   private String description = null;
 
   public Product name(String name) {

@@ -19,6 +19,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 import static br.com.becommerce.commons.util.RequestUtil.doGetList;
 
@@ -59,7 +60,7 @@ public class ProductsApiController implements ProductsApi {
                 );
 
                 try {
-                    return doGetList(urlWithParams, apiKey);
+                    return doGetList(urlWithParams, Map.of("api_key", apiKey));
                 } catch (HttpClientErrorException e) {
                     return new ResponseEntity<List>(e.getStatusCode());
                 }
