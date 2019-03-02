@@ -3,19 +3,20 @@ package br.com.becommerce.api.gateway.resource;
 import br.com.becommerce.api.gateway.util.RequestURL;
 import br.com.becommerce.commons.annotation.TokenValidation;
 import br.com.becommerce.commons.constants.MessageConstants;
+import br.com.becommerce.commons.to.Inventory;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static br.com.becommerce.commons.util.RequestUtil.doGetList;
-import static br.com.becommerce.commons.util.RequestUtil.generateRequestUUID;
+import static br.com.becommerce.commons.util.RequestUtil.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 @RestController
@@ -56,6 +57,33 @@ public class APIInventoryResource {
 		}
 
 		return response;
+	}
+
+
+	@TokenValidation
+	@PostMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<String> addInventory(@RequestHeader(value = "api_key") final String apiKey,
+											  @RequestBody final Inventory inventory) {
+
+		final String requestUUID = generateRequestUUID();
+		final String url = RequestURL.INVENTORY_RESOURCE;
+
+		log.info(String.format("m=addInventory, inventory=%s, requestUUID=%s, api_key=%s, url=%s",
+				inventory, requestUUID, apiKey, url));
+
+		try {
+			return doPost(url, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID), inventory);
+
+		} catch (HttpClientErrorException e) {
+
+			log.error(String.format("m=addInventory,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+		} catch (Exception e) {
+
+			log.error(String.format("m=addInventory,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 
 }
