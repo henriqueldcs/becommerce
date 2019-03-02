@@ -2,6 +2,9 @@ package br.com.becommerce.commons.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -13,13 +16,15 @@ import java.util.Objects;
  */
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
-
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class InventoryProduct   {
   @JsonProperty("product")
-  private Product product = null;
+  private Product product;
 
   @JsonProperty("amount")
-  private BigDecimal amount = null;
+  private BigDecimal amount;
 
   public InventoryProduct product(Product product) {
     this.product = product;
