@@ -40,9 +40,9 @@ public interface InventoriesApi {
         @ApiResponse(code = 401, message = "Token inválido"),
         @ApiResponse(code = 404, message = "Produto não encontrado em estoque") })
     @RequestMapping(value = "/inventories",
-        consumes = { "application/json" },
+        produces = { "application/json" },
         method = RequestMethod.GET)
-    ResponseEntity<List<InventoryProduct>> listInventoryProducts(@ApiParam(value = "Número da página a ser retornada", defaultValue = "0") @Valid @RequestParam(value = "page", required = false, defaultValue="0") Integer page,@ApiParam(value = "Tamanho da página a ser retornada", defaultValue = "10") @Valid @RequestParam(value = "size", required = false, defaultValue="10") Integer size,@ApiParam(value = "Código de referência do produto em estoque") @Valid @RequestParam(value = "productReferenceCode", required = false) String productReferenceCode, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<List> listInventoryProducts(@ApiParam(value = "Número da página a ser retornada", defaultValue = "0") @Valid @RequestParam(value = "page", required = false, defaultValue="0") Integer page,@ApiParam(value = "Tamanho da página a ser retornada", defaultValue = "10") @Valid @RequestParam(value = "size", required = false, defaultValue="10") Integer size,@ApiParam(value = "Código de referência do produto em estoque") @Valid @RequestParam(value = "productReferenceCode", required = false) String productReferenceCode, @RequestHeader(name = "api_key")  String apiKey);
 
 
     @ApiOperation(value = "Incrementar ou decrementar a quantidade de um produto em estoque.", nickname = "updateInventoryProduct", notes = "Recurso usado para fazer o incremento ou decremento de produtos do estoque.", authorizations = {
