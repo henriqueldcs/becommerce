@@ -11,7 +11,7 @@ public class MessageConstants {
 
 
     /* EXCEPTION MESSAGES */
-    public static final String REFERENCE_CODE_ALREADY_EXISTS = "ReferenceCode já cadastrado!";
+    public static final String REFERENCE_CODE_ALREADY_EXISTS = "Este item já foi cadastrado em ações anteriores!";
     public static final String PRODUCT_NOT_FOUND = "Produto não encontrado!";
     public static final String INVENTORY_NOT_FOUND = "Produto não encontrado no estoque!";
 
