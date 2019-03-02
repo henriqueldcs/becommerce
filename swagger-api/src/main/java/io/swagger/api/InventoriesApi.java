@@ -29,7 +29,7 @@ public interface InventoriesApi {
     @RequestMapping(value = "/inventories",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> addInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto ao estoque." ,required=true )  @Valid @RequestBody Inventory inventory, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<String> addInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto ao estoque." ,required=true )  @Valid @RequestBody Inventory inventory, @RequestHeader(name = "api_key")  String apiKey);
 
 
     @ApiOperation(value = "Listar produtos em estoque.", nickname = "listInventoryProducts", notes = "Recurso usado para listar produtos em estoque.", response = InventoryProduct.class, responseContainer = "List", authorizations = {
@@ -55,6 +55,6 @@ public interface InventoriesApi {
     @RequestMapping(value = "/inventories",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody InventoryProductAction inventoryProductAction, @RequestHeader(name = "api_key")  String apiKey);
+    ResponseEntity<String> updateInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody InventoryProductAction inventoryProductAction, @RequestHeader(name = "api_key")  String apiKey);
 
 }

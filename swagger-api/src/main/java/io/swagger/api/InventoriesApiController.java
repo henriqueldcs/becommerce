@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static br.com.becommerce.commons.util.RequestUtil.doGetList;
+import static br.com.becommerce.commons.util.RequestUtil.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
@@ -41,9 +41,26 @@ public class InventoriesApiController implements InventoriesApi {
         this.request = request;
     }
 
-    public ResponseEntity<Void> addInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto ao estoque." ,required=true )  @Valid @RequestBody Inventory inventory, @RequestHeader(name = "api_key")  String apiKey) {
-        String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<String> addInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto ao estoque." ,required=true )  @Valid @RequestBody Inventory inventory, @RequestHeader(name = "api_key")  String apiKey) {
+
+        final String requestUUID = generateRequestUUID();
+        final String url = ApiGatewayURL.INVENTORY_RESOURCE;
+
+
+        try {
+            return doPost(url, Map.of("api_key", apiKey), inventory);
+
+        } catch (HttpClientErrorException e) {
+
+            log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+        } catch (Exception e) {
+
+            log.error(String.format("m=addProducts,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     public ResponseEntity<List> listInventoryProducts(@ApiParam(value = "Número da página a ser retornada", defaultValue = "0") @Valid @RequestParam(value = "page", required = false, defaultValue="0") Integer page, @ApiParam(value = "Tamanho da página a ser retornada", defaultValue = "10") @Valid @RequestParam(value = "size", required = false, defaultValue="10") Integer size, @ApiParam(value = "Código de referência do produto em estoque") @Valid @RequestParam(value = "productReferenceCode", required = false) String productReferenceCode, @RequestHeader(name = "api_key")  String apiKey) {
@@ -68,7 +85,7 @@ public class InventoriesApiController implements InventoriesApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateInventoryProduct(@Valid InventoryProductAction inventoryProductAction, String apiKey) {
+    public ResponseEntity<String> updateInventoryProduct(@Valid InventoryProductAction inventoryProductAction, String apiKey) {
         return null;
     }
 

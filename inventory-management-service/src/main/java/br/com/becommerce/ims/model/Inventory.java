@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.math.BigDecimal;
 
@@ -26,6 +27,7 @@ public class Inventory {
 	private String productReferenceCode;
 
 	@PositiveOrZero(message = "Deve ser maior ou igual a zero!")
+	@NotNull(message = "Deve ser informado um valor")
 	private BigDecimal amount;
 
 }

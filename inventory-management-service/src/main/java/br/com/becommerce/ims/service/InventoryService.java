@@ -2,6 +2,8 @@ package br.com.becommerce.ims.service;
 
 import br.com.becommerce.commons.to.InventoryProduct;
 import br.com.becommerce.commons.to.Product;
+import br.com.becommerce.ims.exception.InventoryAlreadyExists;
+import br.com.becommerce.ims.model.Inventory;
 import br.com.becommerce.ims.repository.InventoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,4 +88,17 @@ public class InventoryService {
 		}
 	}
 
+	/**
+	 * Adiciona um produto ao inventário.
+	 * @param inventory item a ser adicionado.
+	 * @throws InventoryAlreadyExists ocorre caso o produto já esteja cadastrado em estoque.
+	 */
+	public void addInventory(final Inventory inventory) throws InventoryAlreadyExists {
+
+		if(inventoryRepository.existsByProductReferenceCode(inventory.getProductReferenceCode())) {
+				throw new InventoryAlreadyExists();
+			}
+
+		inventoryRepository.save(inventory);
+	}
 }
