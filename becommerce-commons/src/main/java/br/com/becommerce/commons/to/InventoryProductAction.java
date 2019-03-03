@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModelProperty;
-import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -13,7 +12,6 @@ import java.util.Objects;
 /**
  * InventoryProductAction
  */
-@Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-02-18T04:49:14.604Z")
 
 public class InventoryProductAction   {
@@ -49,10 +47,15 @@ public class InventoryProductAction   {
   }
 
   @JsonProperty("action")
-  private ActionEnum action = null;
+  private ActionEnum action;
 
   @JsonProperty("value")
-  private BigDecimal value = null;
+  private BigDecimal value;
+
+  @JsonProperty("productReferenceCode")
+  private String productReferenceCode;
+
+
 
   public InventoryProductAction action(ActionEnum action) {
     this.action = action;
@@ -82,7 +85,7 @@ public class InventoryProductAction   {
   /**
    * Get value
    * @return value
-  **/
+   **/
   @ApiModelProperty(example = "1.2", value = "")
 
   @Valid
@@ -96,6 +99,32 @@ public class InventoryProductAction   {
   }
 
 
+
+
+  public InventoryProductAction productReferenceCode(String productReferenceCode) {
+    this.productReferenceCode = productReferenceCode;
+    return this;
+  }
+
+  /**
+   * Get productReferenceCode
+   * @return productReferenceCode
+   **/
+  @ApiModelProperty(example = "P123", value = "")
+
+  @Valid
+
+  public String getProductReferenceCode() {
+    return productReferenceCode;
+  }
+
+  public void setProductReferenceCode(String productReferenceCode) {
+    this.productReferenceCode = productReferenceCode;
+  }
+
+
+
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -106,20 +135,22 @@ public class InventoryProductAction   {
     }
     InventoryProductAction inventoryProductAction = (InventoryProductAction) o;
     return Objects.equals(this.action, inventoryProductAction.action) &&
-        Objects.equals(this.value, inventoryProductAction.value);
+            Objects.equals(this.productReferenceCode, inventoryProductAction.productReferenceCode) &&
+            Objects.equals(this.value, inventoryProductAction.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(action, value);
+    return Objects.hash(action, productReferenceCode, value);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class InventoryProductAction {\n");
-    
+
     sb.append("    action: ").append(toIndentedString(action)).append("\n");
+    sb.append("    productReferenceCode: ").append(toIndentedString(productReferenceCode)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();

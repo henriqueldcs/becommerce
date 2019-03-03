@@ -20,6 +20,5 @@ public class InventoryManagementServiceApplication {
 
 	@PostConstruct
 	public void init() {
-		//TODO: ADD LOG
 	}
 }

@@ -1,10 +1,15 @@
 package br.com.becommerce.ims.service;
 
+import br.com.becommerce.commons.constants.MessageConstants;
 import br.com.becommerce.commons.to.InventoryProduct;
+import br.com.becommerce.commons.to.InventoryProductAction;
 import br.com.becommerce.commons.to.Product;
 import br.com.becommerce.ims.exception.InventoryAlreadyExists;
+import br.com.becommerce.ims.exception.InventoryNotFound;
 import br.com.becommerce.ims.model.Inventory;
 import br.com.becommerce.ims.repository.InventoryRepository;
+import br.com.becommerce.ims.service.operation.InventoryOperation;
+import br.com.becommerce.ims.service.operation.exception.InventoryOperationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -100,5 +106,48 @@ public class InventoryService {
 			}
 
 		inventoryRepository.save(inventory);
+	}
+
+	/**
+	 * Atualiza quantidade de produto em estoque.
+	 * @param inventoryProductAction Ação a ser executada.
+	 * @return @{@link Inventory} atualizado.
+	 * @throws InventoryNotFound @{@link Inventory} não encontrado.
+	 * @throws InventoryOperationException Operação com dados inválidos.
+	 */
+	public Inventory updateInventory(InventoryProductAction inventoryProductAction) throws InventoryNotFound, InventoryOperationException {
+
+		Inventory inventory = getProductOrException(inventoryProductAction.getProductReferenceCode());
+
+		var operationOptional = InventoryOperation.getOperator(inventoryProductAction.getAction());
+
+
+
+		if(!operationOptional.isPresent()) {
+			log.error(String.format("m=updateInventory, message=invalid operation, inventoryProductAction=%s", inventoryProductAction));
+			List<String> actions = Arrays.stream(InventoryProductAction.ActionEnum.values()).map(i -> i.name()).collect(Collectors.toList());
+			throw new InventoryOperationException(MessageConstants.INVALID_OPERATION + actions);
+		}
+
+		inventory.setAmount(operationOptional.get().calculateNewValue(inventory, inventoryProductAction.getValue()));
+		inventoryRepository.save(inventory);
+
+		return inventory;
+	}
+
+	/**
+	 * Obtem produto ou lança exceção.
+	 * @param productReferenceCode Código do produto.
+	 * @return @{@link Inventory} lido.
+	 * @throws InventoryNotFound Exceção lançada ao não encontrar produto em estoque.
+	 */
+	private Inventory getProductOrException(String productReferenceCode) throws InventoryNotFound {
+
+		Inventory inventoryFromDatabase = inventoryRepository.findByProductReferenceCode(productReferenceCode);
+		if(inventoryFromDatabase == null) {
+			throw new InventoryNotFound();
+		}
+
+		return inventoryFromDatabase;
 	}
 }
