@@ -84,9 +84,26 @@ public class InventoriesApiController implements InventoriesApi {
         return new ResponseEntity<List>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    @Override
     public ResponseEntity<String> updateInventoryProduct(@Valid InventoryProductAction inventoryProductAction, String apiKey) {
-        return null;
+
+        final String requestUUID = generateRequestUUID();
+        final String url = ApiGatewayURL.INVENTORY_RESOURCE;
+
+
+        try {
+            return doPut(url, Map.of("api_key", apiKey), inventoryProductAction);
+
+        } catch (HttpClientErrorException e) {
+
+            log.error(String.format("m=updateInventoryProduct,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+            return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+        } catch (Exception e) {
+
+            log.error(String.format("m=updateInventoryProduct,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
 }
