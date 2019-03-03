@@ -13,4 +13,6 @@ public interface InventoryRepository extends PagingAndSortingRepository<Inventor
 	List<Inventory> findAllByProductReferenceCodeContaining(String productReferenceCode, Pageable pageable);
 
 	boolean existsByProductReferenceCode(String productReferenceCode);
+
+	Inventory findByProductReferenceCode(String productReferenceCode);
 }

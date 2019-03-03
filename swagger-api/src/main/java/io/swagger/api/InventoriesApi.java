@@ -51,9 +51,11 @@ public interface InventoriesApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK. Produto incrementado ou decrementado"),
         @ApiResponse(code = 401, message = "Token inválido"),
+        @ApiResponse(code = 403, message = "Dados da requisição inválidos"),
         @ApiResponse(code = 404, message = "Produto não encontrado") })
     @RequestMapping(value = "/inventories",
         consumes = { "application/json" },
+        produces = { "application/json" },
         method = RequestMethod.PUT)
     ResponseEntity<String> updateInventoryProduct(@ApiParam(value = "Campos informados na adição de um produto." ,required=true )  @Valid @RequestBody InventoryProductAction inventoryProductAction, @RequestHeader(name = "api_key")  String apiKey);
 
