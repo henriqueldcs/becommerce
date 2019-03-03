@@ -65,7 +65,7 @@ public class ProductResourceTest {
         Response response = request.post("/products");
 
         int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 201);
+        Assert.assertEquals(201, statusCode);
         String message = response.asString();
         Assert.assertEquals(MessageConstants.CREATE_SUCCESS_MESSAGE, message);
 
@@ -90,7 +90,7 @@ public class ProductResourceTest {
         Response response = request.put("/products");
 
         int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 200);
+        Assert.assertEquals(200, statusCode );
         String message = response.asString();
         Assert.assertEquals(MessageConstants.UPDATE_SUCCESS_MESSAGE, message);
     }
@@ -108,7 +108,7 @@ public class ProductResourceTest {
         Response response = request.delete("/products/" + referenceCode);
 
         int statusCode = response.getStatusCode();
-        Assert.assertEquals(statusCode, 200);
+        Assert.assertEquals(200, statusCode);
         String message = response.asString();
         Assert.assertEquals(MessageConstants.DELETE_SUCCESS_MESSAGE, message);
     }
