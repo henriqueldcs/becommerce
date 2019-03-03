@@ -4,6 +4,7 @@ import br.com.becommerce.api.gateway.util.RequestURL;
 import br.com.becommerce.commons.annotation.TokenValidation;
 import br.com.becommerce.commons.constants.MessageConstants;
 import br.com.becommerce.commons.to.Inventory;
+import br.com.becommerce.commons.to.InventoryProductAction;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -86,4 +87,29 @@ public class APIInventoryResource {
 		}
 	}
 
+	@TokenValidation
+	@PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<String> updateInventory(@RequestHeader(value = "api_key") final String apiKey,
+											   @RequestBody final InventoryProductAction inventoryProductAction) {
+
+		final String requestUUID = generateRequestUUID();
+		final String url = RequestURL.INVENTORY_RESOURCE;
+
+		log.info(String.format("m=updateInventory, inventoryProductAction=%s, requestUUID=%s, api_key=%s, url=%s",
+				inventoryProductAction, requestUUID, apiKey, url));
+
+		try {
+			return doPut(url, Map.of(API_KEY, apiKey, REQUEST_UUID, requestUUID), inventoryProductAction);
+
+		} catch (HttpClientErrorException e) {
+
+			log.error(String.format("m=addInventory,requestUUID=%s, message=%s", requestUUID, e.getResponseBodyAsString()));
+			return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+
+		} catch (Exception e) {
+
+			log.error(String.format("m=addInventory,requestUUID=%s, message=%s", requestUUID, e.getMessage()));
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }

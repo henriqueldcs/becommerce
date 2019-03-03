@@ -9,6 +9,7 @@ import br.com.becommerce.ims.exception.InventoryAlreadyExists;
 import br.com.becommerce.ims.exception.InventoryNotFound;
 import br.com.becommerce.ims.model.Inventory;
 import br.com.becommerce.ims.service.InventoryService;
+import br.com.becommerce.ims.service.operation.exception.InventoryOperationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,7 +66,7 @@ public class InventoryResource {
     }
 
     @TokenValidation
-    @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<InventoryResponse> updateInventory(@RequestHeader(value = "api_key") final String apiKey,
                                                              @RequestHeader(value = "requestUUID") final String requestUUID,
                                                              @RequestBody final InventoryProductAction inventoryProductAction) {
@@ -87,6 +88,8 @@ public class InventoryResource {
         } catch (InventoryNotFound e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(InventoryResponse.builder().message(e.getMessage()).build());
         } catch (ConstraintViolationException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(InventoryResponse.builder().message(e.getMessage()).build());
+        } catch (InventoryOperationException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(InventoryResponse.builder().message(e.getMessage()).build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(InventoryResponse.builder().message(e.getMessage()).build());
